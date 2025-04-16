@@ -108,17 +108,18 @@
       gap: 1rem;
       justify-content: center;
       margin-top: 1rem;
+      flex-wrap: wrap;
     }
 
     .cta-button {
-      flex: 1 1 45%;
-      padding: 0.6rem 1rem;
+      padding: 0.6rem 1.2rem;
       background-color: #ff0044;
       color: #fff;
       border: none;
       border-radius: 999px;
       font-weight: bold;
       cursor: pointer;
+      flex: 1 1 45%;
       transition: background 0.3s ease;
     }
 
@@ -153,12 +154,10 @@
 </head>
 <body>
 
-  <!-- ✅ Sponsor Bar -->
   <div class="top-logo">
     <img src="sponsor-bar.png" alt="贊助及合作單位" draggable="false" />
   </div>
 
-  <!-- ✅ Floating Symbols -->
   <div class="shapes">
     <div class="shape" style="top:5%; left:10%;">∞</div>
     <div class="shape" style="top:15%; left:70%; font-size:4rem;">▲</div>
@@ -172,7 +171,6 @@
     <div class="shape" style="top:90%; left:75%;">▲</div>
   </div>
 
-  <!-- ✅ Main Invitation Card -->
   <div class="invitation-card">
     <div class="subtitle">誠邀您出席活動</div>
     <div class="main-title">
@@ -188,16 +186,17 @@
 
     <form id="vipForm"
       action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSdhH3biCzH9-MK6q2aPYdiuQ04S04rrFhJ_D-AiMYs_IQRojA/formResponse"
-      method="POST" target="hidden_iframe" onsubmit="handleSubmit(event)">
+      method="POST" target="hidden_iframe">
       
       <input type="text" name="entry.2005620554" placeholder="姓名" required />
       <input type="text" name="entry.1045781291" placeholder="職銜" required />
       <input type="tel" name="entry.1166974658" placeholder="聯絡電話" required />
-      <input type="hidden" name="entry.839337160" id="attendanceInput" required />
+      <!-- Hidden field to store attendance status -->
+      <input type="hidden" name="entry.839337160" id="attendanceInput" />
 
       <div class="button-group">
-        <button type="submit" class="cta-button" onclick="setAttendance('確認出席')">確認出席</button>
-        <button type="submit" class="cta-button decline-button" onclick="setAttendance('未能出席')">未能出席</button>
+        <button type="button" class="cta-button" id="confirmBtn">確認出席</button>
+        <button type="button" class="cta-button decline-button" id="declineBtn">未能出席</button>
       </div>
     </form>
 
@@ -206,17 +205,28 @@
   </div>
 
   <script>
-    function setAttendance(status) {
-      document.getElementById('attendanceInput').value = status;
-    }
+    const confirmBtn = document.getElementById('confirmBtn');
+    const declineBtn = document.getElementById('declineBtn');
+    const attendanceInput = document.getElementById('attendanceInput');
+    const form = document.getElementById('vipForm');
+    const thankYouMessage = document.getElementById('thankYouMessage');
 
-    function handleSubmit(event) {
-      event.preventDefault();
-      const form = document.getElementById('vipForm');
+    confirmBtn.addEventListener('click', () => {
+      attendanceInput.value = '確認出席';
+      form.requestSubmit();
+    });
+
+    declineBtn.addEventListener('click', () => {
+      attendanceInput.value = '未能出席';
+      form.requestSubmit();
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
       form.submit();
       form.style.display = 'none';
-      document.getElementById('thankYouMessage').style.display = 'block';
-    }
+      thankYouMessage.style.display = 'block';
+    });
   </script>
 </body>
 </html>
