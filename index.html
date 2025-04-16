@@ -66,7 +66,7 @@
       padding: 2rem;
       border-radius: 1rem;
       box-shadow: 0 0 20px rgba(255, 0, 70, 0.8);
-      max-width: 600px;
+      max-width: 480px;
       width: 90%;
       text-align: center;
       margin: 2rem auto;
@@ -93,30 +93,46 @@
       margin: 1rem 0;
     }
 
-    input[type="text"], input[type="tel"], input[type="number"] {
+    input[type="text"], input[type="tel"] {
       width: 100%;
       padding: 0.6rem;
-      margin: 0.4rem 0;
+      margin: 0.5rem 0;
       border: none;
       border-radius: 5px;
       font-size: 1rem;
       font-family: inherit;
     }
 
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
     .cta-button {
-      padding: 0.8rem 1.5rem;
+      padding: 0.6rem 1.2rem;
       background-color: #ff0044;
       color: #fff;
       border: none;
       border-radius: 999px;
       font-weight: bold;
       cursor: pointer;
-      margin-top: 1rem;
+      flex: 1 1 45%;
       transition: background 0.3s ease;
     }
 
     .cta-button:hover {
       background-color: #ff3366;
+    }
+
+    .decline-button {
+      background-color: #333;
+    }
+
+    .decline-button:hover {
+      background-color: #555;
     }
 
     #thankYouMessage {
@@ -138,12 +154,10 @@
 </head>
 <body>
 
-  <!-- Sponsor Bar -->
   <div class="top-logo">
     <img src="sponsor-bar.png" alt="贊助及合作單位" draggable="false" />
   </div>
 
-  <!-- Floating Symbols -->
   <div class="shapes">
     <div class="shape" style="top:5%; left:10%;">∞</div>
     <div class="shape" style="top:15%; left:70%; font-size:4rem;">▲</div>
@@ -157,60 +171,62 @@
     <div class="shape" style="top:90%; left:75%;">▲</div>
   </div>
 
-  <!-- Main Card -->
   <div class="invitation-card">
-    <div class="subtitle">立即組隊參加！</div>
+    <div class="subtitle">誠邀您出席活動</div>
     <div class="main-title">
-      21C@JCISC 青年空間開幕禮<br>
+      21C@JCISC 青年空間開幕禮 -<br>
       魷 Y∞UTH 遊戲
     </div>
 
     <div class="details">
       📅 日期：2025年5月10日（星期六）<br>
-      🕒 時間：下午4:30 至 6:00<br>
+      🕒 時間：下午2:15 至 4:15<br>
       📍 地點：石排灣邨碧銀樓平台 1 號
     </div>
 
-    <form id="teamForm"
-      action="https://docs.google.com/forms/u/0/d/e/1FAIpQLScZh82nB7DhLMypvGJSl4exqFDNNH1nYcBMlVVgaVlnTMPhAw/formResponse"
-      method="POST" target="hidden_iframe" onsubmit="handleSubmit(event)">
+    <form id="vipForm"
+      action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSdhH3biCzH9-MK6q2aPYdiuQ04S04rrFhJ_D-AiMYs_IQRojA/formResponse"
+      method="POST" target="hidden_iframe">
+      
+      <input type="text" name="entry.2005620554" placeholder="姓名" required />
+      <input type="text" name="entry.1045781291" placeholder="職銜" required />
+      <input type="tel" name="entry.1166974658" placeholder="聯絡電話" required />
+      <!-- Hidden field to store attendance status -->
+      <input type="hidden" name="entry.839337160" id="attendanceInput" />
 
-      <!-- 組長 -->
-      <input type="text" name="entry.1660667875" placeholder="組長姓名" required />
-      <input type="tel" name="entry.1381860631" placeholder="組長聯絡電話" required />
-
-      <!-- 第一位 -->
-      <input type="text" name="entry.131484445" placeholder="第一位隊員姓名" />
-      <input type="number" name="entry.2112070089" placeholder="第一位隊員年齡" />
-
-      <!-- 第二位 -->
-      <input type="text" name="entry.390897507" placeholder="第二位隊員姓名" />
-      <input type="number" name="entry.1697250001" placeholder="第二位隊員年齡" />
-
-      <!-- 第三位 -->
-      <input type="text" name="entry.525728202" placeholder="第三位隊員姓名" />
-      <input type="number" name="entry.1588579358" placeholder="第三位隊員年齡" />
-
-      <!-- 第四位 -->
-      <input type="text" name="entry.1706955507" placeholder="第四位隊員姓名" />
-      <input type="number" name="entry.1181156604" placeholder="第四位隊員年齡" />
-
-      <button type="submit" class="cta-button">成為挑戰者</button>
+      <div class="button-group">
+        <button type="button" class="cta-button" id="confirmBtn">確認出席</button>
+        <button type="button" class="cta-button decline-button" id="declineBtn">未能出席</button>
+      </div>
     </form>
 
-    <div id="thankYouMessage">感謝您的報名，我們期待見到你的隊伍！🎮</div>
+    <div id="thankYouMessage">感謝您的回覆，我們已經收到您的意願 🙏</div>
     <iframe name="hidden_iframe" id="hidden_iframe"></iframe>
   </div>
 
   <script>
-    function handleSubmit(event) {
-      event.preventDefault();
-      const form = document.getElementById('teamForm');
+    const confirmBtn = document.getElementById('confirmBtn');
+    const declineBtn = document.getElementById('declineBtn');
+    const attendanceInput = document.getElementById('attendanceInput');
+    const form = document.getElementById('vipForm');
+    const thankYouMessage = document.getElementById('thankYouMessage');
+
+    confirmBtn.addEventListener('click', () => {
+      attendanceInput.value = '確認出席';
+      form.requestSubmit();
+    });
+
+    declineBtn.addEventListener('click', () => {
+      attendanceInput.value = '未能出席';
+      form.requestSubmit();
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
       form.submit();
       form.style.display = 'none';
-      document.getElementById('thankYouMessage').style.display = 'block';
-    }
+      thankYouMessage.style.display = 'block';
+    });
   </script>
-
 </body>
 </html>
