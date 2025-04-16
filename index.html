@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -11,9 +10,9 @@
     body {
       margin: 0;
       padding: 0;
+      font-family: 'Orbitron', sans-serif;
       background-color: #0b0b0b;
       color: #fff;
-      font-family: 'Orbitron', sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -25,8 +24,9 @@
       background: #fff;
       text-align: center;
       padding: 1rem 0;
-      margin-bottom: 2rem;
-      z-index: 2;
+      margin: 0;
+      line-height: 0;
+      z-index: 20;
       position: relative;
     }
 
@@ -40,19 +40,19 @@
 
     .shapes {
       position: fixed;
-      top: 200px;
+      top: 140px;
       left: 0;
       width: 100%;
-      height: calc(100% - 200px);
+      height: calc(100% - 140px);
       pointer-events: none;
-      z-index: 0;
+      z-index: 1;
     }
 
     .shape {
       position: absolute;
       font-size: 3rem;
       font-weight: bold;
-      color: rgba(255, 0, 100, 0.2);
+      color: rgba(255, 0, 100, 0.15);
       animation: float 6s infinite ease-in-out alternate;
     }
 
@@ -62,7 +62,6 @@
     }
 
     .invitation-card {
-      position: relative;
       background: #111;
       padding: 2rem;
       border-radius: 1rem;
@@ -71,7 +70,8 @@
       width: 90%;
       text-align: center;
       margin: 2rem auto;
-      z-index: 1;
+      z-index: 10;
+      position: relative;
     }
 
     .subtitle {
@@ -153,31 +153,28 @@
 </head>
 <body>
 
+  <!-- ✅ Sponsor Bar -->
   <div class="top-logo">
-    <img src="sponsors.png" alt="Sponsors" draggable="false" />
+    <img src="sponsor-bar.png" alt="贊助及合作單位" draggable="false" />
   </div>
 
+  <!-- ✅ Floating Symbols -->
   <div class="shapes">
-    <div class="shape">∞</div>
-    <div class="shape">▲</div>
-    <div class="shape">●</div>
-    <div class="shape">■</div>
-    <div class="shape">∞</div>
-    <div class="shape">▲</div>
-    <div class="shape">●</div>
-    <div class="shape">■</div>
-    <div class="shape">∞</div>
-    <div class="shape">▲</div>
-    <div class="shape">●</div>
-    <div class="shape">■</div>
-    <div class="shape">∞</div>
-    <div class="shape">●</div>
-    <div class="shape">▲</div>
+    <div class="shape" style="top:5%; left:10%;">∞</div>
+    <div class="shape" style="top:15%; left:70%; font-size:4rem;">▲</div>
+    <div class="shape" style="top:25%; left:40%;">●</div>
+    <div class="shape" style="top:35%; left:20%;">■</div>
+    <div class="shape" style="top:45%; left:80%; font-size:5rem;">∞</div>
+    <div class="shape" style="top:55%; left:30%;">▲</div>
+    <div class="shape" style="top:65%; left:60%;">●</div>
+    <div class="shape" style="top:75%; left:15%;">■</div>
+    <div class="shape" style="top:85%; left:50%; font-size:4rem;">∞</div>
+    <div class="shape" style="top:90%; left:75%;">▲</div>
   </div>
 
+  <!-- ✅ Main Invitation Card -->
   <div class="invitation-card">
     <div class="subtitle">誠邀您出席活動</div>
-
     <div class="main-title">
       21C@JCISC 青年空間開幕禮 -<br>
       魷 Y∞UTH 遊戲
@@ -185,19 +182,18 @@
 
     <div class="details">
       📅 日期：2025年5月10日（星期六）<br>
-      🕒 時間：下午1:45 至 3:15<br>
+      🕒 時間：下午2:15 至 4:15<br>
       📍 地點：石排灣邨碧銀樓平台 1 號
     </div>
 
-    <form id="rsvpForm"
-      action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSeg4REeObMRpsaXX2pTGA9MM0_85_4A-ctXrVjK-t39KE4-jQ/formResponse"
+    <form id="vipForm"
+      action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSdhH3biCzH9-MK6q2aPYdiuQ04S04rrFhJ_D-AiMYs_IQRojA/formResponse"
       method="POST" target="hidden_iframe" onsubmit="handleSubmit(event)">
       
-      <input type="text" name="entry.1660667875" placeholder="姓名" required />
-      <input type="text" name="entry.1717911038" placeholder="職銜" />
-      <input type="tel" name="entry.1381860631" placeholder="聯絡電話" />
-
-      <input type="hidden" id="attendanceInput" name="entry.241975396" value="" />
+      <input type="text" name="entry.2005620554" placeholder="姓名" required />
+      <input type="text" name="entry.1045781291" placeholder="職銜" required />
+      <input type="tel" name="entry.1166974658" placeholder="聯絡電話" required />
+      <input type="text" name="entry.839337160" id="attendanceInput" placeholder="是否出席（確認出席／未能出席）" required />
 
       <div class="button-group">
         <button type="submit" class="cta-button" onclick="setAttendance('確認出席')">確認出席</button>
@@ -216,7 +212,7 @@
 
     function handleSubmit(event) {
       event.preventDefault();
-      const form = document.getElementById('rsvpForm');
+      const form = document.getElementById('vipForm');
       form.submit();
       form.style.display = 'none';
       document.getElementById('thankYouMessage').style.display = 'block';
