@@ -40,7 +40,7 @@
 
     .shapes {
       position: fixed;
-      top: 140px;
+      top: 140px; /* sponsor bar 高度 */
       left: 0;
       width: 100%;
       height: calc(100% - 140px);
@@ -111,14 +111,14 @@
     }
 
     .cta-button {
-      flex: 1 1 45%;
-      padding: 0.6rem 1rem;
+      padding: 0.6rem 1.2rem;
       background-color: #ff0044;
       color: #fff;
       border: none;
       border-radius: 999px;
       font-weight: bold;
       cursor: pointer;
+      flex: 1 1 45%;
       transition: background 0.3s ease;
     }
 
@@ -182,18 +182,18 @@
 
     <div class="details">
       📅 日期：2025年5月10日（星期六）<br>
-      🕒 時間：下午2:15 至 4:15<br>
+      🕒 時間：下午1:45 至 3:15<br>
       📍 地點：石排灣邨碧銀樓平台 1 號
     </div>
 
-    <form id="vipForm"
+    <form id="rsvpForm"
       action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSdhH3biCzH9-MK6q2aPYdiuQ04S04rrFhJ_D-AiMYs_IQRojA/formResponse"
       method="POST" target="hidden_iframe" onsubmit="handleSubmit(event)">
       
       <input type="text" name="entry.1660667875" placeholder="姓名" required />
-      <input type="text" name="entry.1717911038" placeholder="職銜" required />
-      <input type="tel" name="entry.1381860631" placeholder="聯絡電話" required />
-      <input type="hidden" name="entry.241975396" id="attendanceInput" required />
+      <input type="text" name="entry.1717911038" placeholder="職銜" />
+      <input type="tel" name="entry.1381860631" placeholder="聯絡電話" />
+      <input type="hidden" id="attendanceInput" name="entry.241975396" value="" />
 
       <div class="button-group">
         <button type="submit" class="cta-button" onclick="setAttendance('確認出席')">確認出席</button>
@@ -205,6 +205,7 @@
     <iframe name="hidden_iframe" id="hidden_iframe"></iframe>
   </div>
 
+  <!-- ✅ JS -->
   <script>
     function setAttendance(status) {
       document.getElementById('attendanceInput').value = status;
@@ -212,7 +213,7 @@
 
     function handleSubmit(event) {
       event.preventDefault();
-      const form = document.getElementById('vipForm');
+      const form = document.getElementById('rsvpForm');
       form.submit();
       form.style.display = 'none';
       document.getElementById('thankYouMessage').style.display = 'block';
